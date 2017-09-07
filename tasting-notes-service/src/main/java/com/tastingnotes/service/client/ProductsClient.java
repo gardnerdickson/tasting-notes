@@ -1,4 +1,4 @@
-package com.tastingnotes.service.http;
+package com.tastingnotes.service.client;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +21,10 @@ public class ProductsClient
 
     public ProductsClient(String url, String token) throws URISyntaxException
     {
+        if (token == null)
+        {
+            throw new NullPointerException("token must not be null");
+        }
         this.uri = new URI(url);
         this.client = new RestTemplateBuilder().additionalInterceptors(new TokenAuthRequestInterceptor(token)).build();
     }
