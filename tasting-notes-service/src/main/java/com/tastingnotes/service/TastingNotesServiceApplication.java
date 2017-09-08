@@ -2,6 +2,7 @@ package com.tastingnotes.service;
 
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.tastingnotes.service.client.NaturalLanguageProcessingClient;
 import com.tastingnotes.service.client.ProductsClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -18,6 +19,7 @@ public class TastingNotesServiceApplication
 {
     public static void main(String[] args)
     {
+        System.out.println("ENVIRONMENT VARIABLE: " + System.getenv("GOOGLE_APPLICATION_CREDENTIALS"));
         SpringApplication.run(TastingNotesServiceApplication.class, args);
     }
 
@@ -32,10 +34,16 @@ public class TastingNotesServiceApplication
     private Resource lcboTokenResource;
 
     @Bean
-    public ProductsClient productsClient() throws URISyntaxException, IOException
+    ProductsClient productsClient() throws URISyntaxException, IOException
     {
         String url = lcboHost + productsPath;
         return new ProductsClient(url, lcboToken());
+    }
+
+    @Bean
+    NaturalLanguageProcessingClient languageClient()
+    {
+        return new NaturalLanguageProcessingClient();
     }
 
     @Bean
@@ -45,7 +53,7 @@ public class TastingNotesServiceApplication
     }
 
     @Bean
-    public Module javaTimeModule()
+    Module javaTimeModule()
     {
         return new JavaTimeModule();
     }

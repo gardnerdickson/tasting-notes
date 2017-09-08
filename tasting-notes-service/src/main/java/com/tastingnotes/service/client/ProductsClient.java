@@ -3,7 +3,6 @@ package com.tastingnotes.service.client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -35,7 +34,15 @@ public class ProductsClient
     {
         UriComponentsBuilder builder = UriComponentsBuilder.fromUri(uri).queryParam("q", query);
 
-        ResponseEntity<ProductResponse> response = client.exchange(builder.build().encode().toString(), HttpMethod.GET, null, ProductResponse.class);
+        ResponseEntity<ProductCollectionResponse> response = client.exchange(builder.build().encode().toString(), HttpMethod.GET, null, ProductCollectionResponse.class);
+        return response.getBody().getResult();
+    }
+
+    public Product getProduct(Long id)
+    {
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUri(uri).pathSegment(id.toString());
+
+        ResponseEntity<ProductSingleResponse> response = client.exchange(builder.build().encode().toString(), HttpMethod.GET, null, ProductSingleResponse.class);
         return response.getBody().getResult();
     }
 }

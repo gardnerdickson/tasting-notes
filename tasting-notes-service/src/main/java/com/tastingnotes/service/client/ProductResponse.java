@@ -1,11 +1,6 @@
 package com.tastingnotes.service.client;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import java.util.Collection;
-
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class ProductResponse
+public class ProductResponse<T>
 {
     private int status;
 
@@ -13,7 +8,7 @@ public class ProductResponse
 
     private ProductPager pager;
 
-    private Collection<Product> result;
+    private T result;
 
     public int getStatus()
     {
@@ -45,12 +40,12 @@ public class ProductResponse
         this.pager = pager;
     }
 
-    public Collection<Product> getResult()
+    public T getResult()
     {
         return result;
     }
 
-    public void setResult(Collection<Product> result)
+    public void setResult(T result)
     {
         this.result = result;
     }

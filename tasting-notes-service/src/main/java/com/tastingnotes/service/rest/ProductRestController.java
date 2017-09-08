@@ -1,16 +1,16 @@
 package com.tastingnotes.service.rest;
 
+import com.tastingnotes.service.client.NaturalLanguageProcessingClient;
 import com.tastingnotes.service.client.Product;
 import com.tastingnotes.service.client.ProductsClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 
 @RestController
 public class ProductRestController
@@ -19,6 +19,9 @@ public class ProductRestController
 
     @Autowired
     private ProductsClient productsClient;
+
+    @Autowired
+    private NaturalLanguageProcessingClient languageClient;
 
 
     @RequestMapping(method = RequestMethod.GET, value = "/hello")
@@ -32,5 +35,15 @@ public class ProductRestController
     {
         return productsClient.getProducts(query);
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/notes/{id}")
+    public List<String> getNotes(@PathVariable(value = "id") Long productId) throws IOException
+    {
+        Product lcboProduct = productsClient.getProduct(productId);
+        List<String> entities = languageClient.getLanguageEntities(lcboProduct.getTastingNote());
+
+        return entities;
+    }
+
 
 }
