@@ -30,7 +30,7 @@ public class TastingNotesServiceApplication
     @Value("${lcboapi.context.product}")
     private String productsPath;
 
-    @Value("classpath:auth/lcbo-api-key")
+    @Value("file://#{systemProperties['auth.lcboapi.key']}")
     private Resource lcboTokenResource;
 
     @Bean
