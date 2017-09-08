@@ -1,12 +1,17 @@
 package com.tastingnotes.service;
 
-import com.tastingnotes.service.http.ProductsClient;
+import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.tastingnotes.service.client.ProductsClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.io.Resource;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
 
 @SpringBootApplication
 public class TastingNotesServiceApplication
@@ -23,12 +28,25 @@ public class TastingNotesServiceApplication
     @Value("${lcboapi.context.product}")
     private String productsPath;
 
-    private static final String TOKEN = "MDoxNTExOTA0YS05MjljLTExZTctODJlYi01YjlhOWQ1OTE0ZTY6STVGbTJJOHV5ckt4VGlkYWxjbXBYZUkwa2xDN0N5UFVGY2ln";
+    @Value("classpath:auth/lcbo-api-key")
+    private Resource lcboTokenResource;
 
     @Bean
-    public ProductsClient productsClient() throws URISyntaxException
+    public ProductsClient productsClient() throws URISyntaxException, IOException
     {
         String url = lcboHost + productsPath;
-        return new ProductsClient(url, TOKEN);
+        return new ProductsClient(url, lcboToken());
+    }
+
+    @Bean
+    String lcboToken() throws IOException
+    {
+        return new String(Files.readAllBytes(lcboTokenResource.getFile().toPath()));
+    }
+
+    @Bean
+    public Module javaTimeModule()
+    {
+        return new JavaTimeModule();
     }
 }

@@ -3,6 +3,7 @@ package com.tastingnotes.service.client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
@@ -10,6 +11,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Collection;
 
 public class ProductsClient
 {
@@ -29,11 +31,11 @@ public class ProductsClient
         this.client = new RestTemplateBuilder().additionalInterceptors(new TokenAuthRequestInterceptor(token)).build();
     }
 
-    public String getProducts(String query) throws Exception
+    public Collection<Product> getProducts(String query) throws Exception
     {
         UriComponentsBuilder builder = UriComponentsBuilder.fromUri(uri).queryParam("q", query);
 
-        ResponseEntity<String> response = client.exchange(builder.build().encode().toString(), HttpMethod.GET, null, String.class);
-        return response.getBody();
+        ResponseEntity<ProductResponse> response = client.exchange(builder.build().encode().toString(), HttpMethod.GET, null, ProductResponse.class);
+        return response.getBody().getResult();
     }
 }
