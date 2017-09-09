@@ -4,11 +4,16 @@ import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.tastingnotes.service.client.NaturalLanguageProcessingClient;
 import com.tastingnotes.service.client.ProductsClient;
+import com.tastingnotes.service.data.NoteRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.Resource;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.GenericToStringSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -31,6 +36,25 @@ public class TastingNotesServiceApplication
 
     @Value("file://#{systemProperties['auth.lcboapi.key']}")
     private Resource lcboTokenResource;
+
+
+    @Bean
+    JedisConnectionFactory jedisConnectionFactory()
+    {
+        return new JedisConnectionFactory();
+    }
+
+    @Bean
+    public NoteRepository noteRepository()
+    {
+        RedisTemplate<String, Long> template = new RedisTemplate<>();
+        template.setConnectionFactory(jedisConnectionFactory());
+        template.setKeySerializer(new StringRedisSerializer());
+        template.setValueSerializer(new GenericToStringSerializer<>(Long.class));
+        template.afterPropertiesSet();
+        return new NoteRepository(template);
+    }
+
 
     @Bean
     ProductsClient productsClient() throws URISyntaxException, IOException
