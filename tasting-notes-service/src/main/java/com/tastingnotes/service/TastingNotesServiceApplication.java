@@ -19,7 +19,6 @@ public class TastingNotesServiceApplication
 {
     public static void main(String[] args)
     {
-        System.out.println("ENVIRONMENT VARIABLE: " + System.getenv("GOOGLE_APPLICATION_CREDENTIALS"));
         SpringApplication.run(TastingNotesServiceApplication.class, args);
     }
 

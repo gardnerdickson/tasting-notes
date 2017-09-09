@@ -1,6 +1,5 @@
 package com.tastingnotes.service.client;
 
-import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.language.v1.*;
 
 import java.io.IOException;
