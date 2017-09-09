@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ProductPager
+public class LcboProductPager
 {
     @JsonProperty("records_per_page")
     private int recordsPerPage;

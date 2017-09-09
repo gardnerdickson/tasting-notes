@@ -1,12 +1,12 @@
 package com.tastingnotes.service.client;
 
-public class ProductResponse<T>
+public class LcboProductResponse<T>
 {
     private int status;
 
     private String message;
 
-    private ProductPager pager;
+    private LcboProductPager pager;
 
     private T result;
 
@@ -30,12 +30,12 @@ public class ProductResponse<T>
         this.message = message;
     }
 
-    public ProductPager getPager()
+    public LcboProductPager getPager()
     {
         return pager;
     }
 
-    public void setPager(ProductPager pager)
+    public void setPager(LcboProductPager pager)
     {
         this.pager = pager;
     }

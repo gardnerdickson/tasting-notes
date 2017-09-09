@@ -3,7 +3,7 @@ package com.tastingnotes.service;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.tastingnotes.service.client.NaturalLanguageProcessingClient;
-import com.tastingnotes.service.client.ProductsClient;
+import com.tastingnotes.service.client.LcboProductsClient;
 import com.tastingnotes.service.data.NoteRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -57,10 +57,10 @@ public class TastingNotesServiceApplication
 
 
     @Bean
-    ProductsClient productsClient() throws URISyntaxException, IOException
+    LcboProductsClient lcboProductsClient() throws URISyntaxException, IOException
     {
         String url = lcboHost + productsPath;
-        return new ProductsClient(url, lcboToken());
+        return new LcboProductsClient(url, lcboToken());
     }
 
     @Bean

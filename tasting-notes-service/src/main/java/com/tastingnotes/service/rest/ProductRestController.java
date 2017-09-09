@@ -1,8 +1,9 @@
 package com.tastingnotes.service.rest;
 
 import com.tastingnotes.service.client.NaturalLanguageProcessingClient;
-import com.tastingnotes.service.client.Product;
-import com.tastingnotes.service.client.ProductsClient;
+import com.tastingnotes.service.client.LcboProduct;
+import com.tastingnotes.service.client.LcboProductsClient;
+import com.tastingnotes.service.client.TastingNotesProduct;
 import com.tastingnotes.service.data.NoteRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +22,7 @@ public class ProductRestController
     private final Logger logger = LoggerFactory.getLogger(ProductRestController.class);
 
     @Autowired
-    private ProductsClient productsClient;
+    private LcboProductsClient lcboProductsClient;
 
     @Autowired
     private NaturalLanguageProcessingClient languageClient;
@@ -37,13 +38,17 @@ public class ProductRestController
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/products")
-    public Collection<Product> getProducts(@RequestParam("notes") String query) throws Exception
+    public Collection<TastingNotesProduct> getProducts(@RequestParam("notes") String query) throws Exception
     {
         Set<String> notes = new HashSet<>(Arrays.asList(query.split(",")));
         Set<Long> productIds = new HashSet<>();
         notes.stream().forEach(note -> productIds.addAll(noteRepository.findNote(note)));
 
-        return productIds.stream().map(id -> productsClient.getProduct(id)).collect(Collectors.toList());
+        return productIds
+                .stream()
+                .map(id -> lcboProductsClient.getProduct(id))
+                .map(TastingNotesProduct::fromLcboProduct)
+                .collect(Collectors.toList());
     }
 
 }

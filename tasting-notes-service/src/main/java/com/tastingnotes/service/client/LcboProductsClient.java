@@ -12,15 +12,15 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
 
-public class ProductsClient
+public class LcboProductsClient
 {
-    private final Logger logger = LoggerFactory.getLogger(ProductsClient.class);
+    private final Logger logger = LoggerFactory.getLogger(LcboProductsClient.class);
 
     private URI uri;
 
     private RestTemplate client;
 
-    public ProductsClient(String url, String token) throws URISyntaxException
+    public LcboProductsClient(String url, String token) throws URISyntaxException
     {
         if (token == null)
         {
@@ -30,19 +30,19 @@ public class ProductsClient
         this.client = new RestTemplateBuilder().additionalInterceptors(new TokenAuthRequestInterceptor(token)).build();
     }
 
-    public Collection<Product> getProducts(String query) throws Exception
+    public Collection<LcboProduct> getProducts(String query) throws Exception
     {
         UriComponentsBuilder builder = UriComponentsBuilder.fromUri(uri).queryParam("q", query);
 
-        ResponseEntity<ProductCollectionResponse> response = client.exchange(builder.build().encode().toString(), HttpMethod.GET, null, ProductCollectionResponse.class);
+        ResponseEntity<LcboProductCollectionResponse> response = client.exchange(builder.build().encode().toString(), HttpMethod.GET, null, LcboProductCollectionResponse.class);
         return response.getBody().getResult();
     }
 
-    public Product getProduct(Long id)
+    public LcboProduct getProduct(Long id)
     {
         UriComponentsBuilder builder = UriComponentsBuilder.fromUri(uri).pathSegment(id.toString());
 
-        ResponseEntity<ProductSingleResponse> response = client.exchange(builder.build().encode().toString(), HttpMethod.GET, null, ProductSingleResponse.class);
+        ResponseEntity<LcboProductSingleResponse> response = client.exchange(builder.build().encode().toString(), HttpMethod.GET, null, LcboProductSingleResponse.class);
         return response.getBody().getResult();
     }
 }

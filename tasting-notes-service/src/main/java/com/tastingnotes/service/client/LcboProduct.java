@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Product
+public class LcboProduct
 {
     @JsonProperty("id")
     private long id;
