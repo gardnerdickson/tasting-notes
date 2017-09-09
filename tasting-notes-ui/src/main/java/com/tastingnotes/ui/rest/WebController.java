@@ -1,7 +1,11 @@
 package com.tastingnotes.ui.rest;
 
+import com.tastingnotes.ui.client.Product;
+import com.tastingnotes.ui.client.ProductClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,11 +19,13 @@ public class WebController
 {
     private final Logger logger = LoggerFactory.getLogger(WebController.class);
 
+    @Autowired
+    private ProductClient productClient;
+
     @RequestMapping(method = RequestMethod.GET, value = "/products")
-    public Collection<String> getProducts(@RequestParam("keywords") String keywords)
+    public Collection<Product> getProducts(@RequestParam("keywords") String keywords)
     {
-        logger.info("Looking up products for keywords: {}", keywords);
-        return Arrays.asList("Black Label", "Highland Park 12", "Glenlivet");
+        return productClient.getProductsFromTastingNotes(keywords);
     }
 
 }

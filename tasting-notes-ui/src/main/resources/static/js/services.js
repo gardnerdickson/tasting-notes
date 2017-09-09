@@ -5,7 +5,7 @@ app.service('tastingNotesService', function($q, $http) {
 
   service.retrieveProductsByTastingNotes = function(keywords) {
     var config = {
-      params: {keywords: keywords}
+      params: {keywords: keywords.join(',')}
     };
     var defer = $q.defer();
     $http.get("./products", config).then(function(response) {
