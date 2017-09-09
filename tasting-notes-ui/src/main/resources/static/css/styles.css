@@ -1,0 +1,36 @@
+html, body, div {
+    margin: 0;
+    padding: 0;
+}
+
+.column {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1em;
+}
+
+#search-form {
+    text-align: center;
+}
+
+#tag-input {
+    width: 500px;
+    margin: 0 auto;
+}
+
+#search-button {
+    height: 32px;
+    margin: 0 auto;
+}
+
+ul {
+    list-style-type: None;
+}
+
+.product-label {
+    font-weight: bold;
+}
+
+#product-list {
+    margin-top: 20px;
+}
