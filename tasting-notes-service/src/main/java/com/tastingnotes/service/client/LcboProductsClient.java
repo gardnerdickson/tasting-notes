@@ -19,17 +19,19 @@ public class LcboProductsClient
 {
     private final Logger logger = LoggerFactory.getLogger(LcboProductsClient.class);
 
-    private URI uri;
+    private static final String PRODUCTS_CONTEXT = "/products";
+
+    private String host;
 
     private RestTemplate client;
 
-    public LcboProductsClient(String url, String token) throws URISyntaxException
+    public LcboProductsClient(String host, String token) throws URISyntaxException
     {
         if (token == null)
         {
             throw new NullPointerException("token must not be null");
         }
-        this.uri = new URI(url);
+        this.host = host;
         this.client = new RestTemplateBuilder().additionalInterceptors(new TokenAuthRequestInterceptor(token)).build();
     }
 
@@ -58,7 +60,9 @@ public class LcboProductsClient
 
     public LcboProduct getProduct(Long id)
     {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromUri(uri).pathSegment(id.toString());
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromUriString(host + PRODUCTS_CONTEXT)
+                .pathSegment(id.toString());
         ResponseEntity<LcboProductSingleResponse> response = client.exchange(builder.build().encode().toString(), HttpMethod.GET, null, LcboProductSingleResponse.class);
         return response.getBody().getResult();
     }
@@ -67,7 +71,10 @@ public class LcboProductsClient
     private Function<Integer, ResponseEntity<List<LcboProduct>>> getRequestFunction(String query)
     {
         return (pageNum) -> {
-            UriComponentsBuilder builder = UriComponentsBuilder.fromUri(uri).queryParam("page", pageNum);
+            UriComponentsBuilder builder = UriComponentsBuilder
+                    .fromUriString(host + PRODUCTS_CONTEXT)
+                    .queryParam("page", pageNum);
+
             if (query != null)
             {
                 builder = builder.queryParam("q", query);

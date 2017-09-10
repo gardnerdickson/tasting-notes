@@ -34,21 +34,31 @@ public class TastingNotesServiceApplication
     @Value("${lcboapi.host}")
     private String lcboHost;
 
-    @Value("${lcboapi.context.product}")
-    private String productsPath;
-
     @Value("file://#{systemProperties['auth.lcboapi.key']}")
     private Resource lcboTokenResource;
 
+    @Value("${redis.host}")
+    private String redisHost;
+
+    @Value("${redis.port}")
+    private String redisPort;
+
+    @Value("file://#{systemProperties['auth.redis.key']}")
+    private Resource redisTokenResource;
+
 
     @Bean
-    JedisConnectionFactory jedisConnectionFactory()
+    JedisConnectionFactory jedisConnectionFactory() throws IOException
     {
-        return new JedisConnectionFactory();
+        JedisConnectionFactory connectionFactory = new JedisConnectionFactory();
+        connectionFactory.setHostName(redisHost);
+        connectionFactory.setPort(Integer.parseInt(redisPort));
+        connectionFactory.setPassword(redisToken());
+        return connectionFactory;
     }
 
     @Bean
-    public NoteRepository noteRepository()
+    public NoteRepository noteRepository() throws IOException
     {
         RedisTemplate<String, Long> template = new RedisTemplate<>();
         template.setConnectionFactory(jedisConnectionFactory());
@@ -59,7 +69,7 @@ public class TastingNotesServiceApplication
     }
 
     @Bean
-    public ProductRepository productRepository()
+    public ProductRepository productRepository() throws IOException
     {
         RedisTemplate<String, String> template = new RedisTemplate<>();
         template.setConnectionFactory(jedisConnectionFactory());
@@ -73,8 +83,7 @@ public class TastingNotesServiceApplication
     @Bean
     LcboProductsClient lcboProductsClient() throws URISyntaxException, IOException
     {
-        String url = lcboHost + productsPath;
-        return new LcboProductsClient(url, lcboToken());
+        return new LcboProductsClient(lcboHost, lcboToken());
     }
 
     @Bean
@@ -86,7 +95,14 @@ public class TastingNotesServiceApplication
     @Bean
     String lcboToken() throws IOException
     {
-        return new String(Files.readAllBytes(lcboTokenResource.getFile().toPath()));
+        return new String(Files.readAllBytes(lcboTokenResource.getFile().toPath()), "UTF-8").trim();
+    }
+
+    @Bean
+    String redisToken() throws IOException
+    {
+
+        return new String(Files.readAllBytes(redisTokenResource.getFile().toPath()), "UTF-8").trim();
     }
 
     @Bean
