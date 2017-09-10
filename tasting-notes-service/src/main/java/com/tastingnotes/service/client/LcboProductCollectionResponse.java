@@ -2,9 +2,9 @@ package com.tastingnotes.service.client;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.util.Collection;
+import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class LcboProductCollectionResponse extends LcboProductResponse<Collection<LcboProduct>>
+class LcboProductCollectionResponse extends LcboProductResponse<List<LcboProduct>>
 {
 }

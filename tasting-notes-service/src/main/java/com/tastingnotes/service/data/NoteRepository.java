@@ -28,7 +28,6 @@ public class NoteRepository
         return setOperations.members(key(word));
     }
 
-
     private static String key(String word)
     {
         return KEY + ":" + word.replaceAll(" ", "_");

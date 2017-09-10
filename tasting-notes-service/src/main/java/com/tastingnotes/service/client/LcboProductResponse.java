@@ -1,6 +1,6 @@
 package com.tastingnotes.service.client;
 
-public class LcboProductResponse<T>
+class LcboProductResponse<T>
 {
     private int status;
 

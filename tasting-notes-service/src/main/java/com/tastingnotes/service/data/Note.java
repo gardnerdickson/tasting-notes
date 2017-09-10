@@ -8,6 +8,16 @@ public class Note implements Serializable
     private String word;
     private Set<Long> productIds;
 
+    public Note()
+    {
+    }
+
+    public Note(String word, Set<Long> productIds)
+    {
+        this.word = word;
+        this.productIds = productIds;
+    }
+
     public String getWord()
     {
         return word;

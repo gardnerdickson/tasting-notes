@@ -11,6 +11,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.function.Function;
 
 public class LcboProductsClient
 {
@@ -30,19 +33,48 @@ public class LcboProductsClient
         this.client = new RestTemplateBuilder().additionalInterceptors(new TokenAuthRequestInterceptor(token)).build();
     }
 
-    public Collection<LcboProduct> getProducts(String query) throws Exception
+    public List<LcboProduct> getProducts()
     {
-        UriComponentsBuilder builder = UriComponentsBuilder.fromUri(uri).queryParam("q", query);
+        return getProducts(null);
+    }
 
-        ResponseEntity<LcboProductCollectionResponse> response = client.exchange(builder.build().encode().toString(), HttpMethod.GET, null, LcboProductCollectionResponse.class);
-        return response.getBody().getResult();
+    public List<LcboProduct> getProducts(String query)
+    {
+        PagedGetRequest<LcboProduct> pagedRequest = new PagedGetRequest<>(getRequestFunction(query));
+        return pagedRequest.getAll();
+    }
+
+
+    public Iterator<LcboProduct> getProductIterator()
+    {
+        return getProductIterator(null);
+    }
+
+    public Iterator<LcboProduct> getProductIterator(String query)
+    {
+        PagedGetRequest<LcboProduct> pagedRequest = new PagedGetRequest<>(getRequestFunction(query));
+        return pagedRequest.iterator();
     }
 
     public LcboProduct getProduct(Long id)
     {
         UriComponentsBuilder builder = UriComponentsBuilder.fromUri(uri).pathSegment(id.toString());
-
         ResponseEntity<LcboProductSingleResponse> response = client.exchange(builder.build().encode().toString(), HttpMethod.GET, null, LcboProductSingleResponse.class);
         return response.getBody().getResult();
+    }
+
+
+    private Function<Integer, ResponseEntity<List<LcboProduct>>> getRequestFunction(String query)
+    {
+        return (pageNum) -> {
+            UriComponentsBuilder builder = UriComponentsBuilder.fromUri(uri).queryParam("page", pageNum);
+            if (query != null)
+            {
+                builder = builder.queryParam("q", query);
+            }
+            logger.info("Executing GET request for products, page " + pageNum);
+            ResponseEntity<LcboProductCollectionResponse> response = client.exchange(builder.build().encode().toString(), HttpMethod.GET, null, LcboProductCollectionResponse.class);
+            return new ResponseEntity<>(response.getBody().getResult(), response.getStatusCode());
+        };
     }
 }

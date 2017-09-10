@@ -118,7 +118,7 @@ public class LcboProduct
     private boolean isKosher;
 
     @JsonProperty("value_added_promotion_description")
-    private boolean valueAddedPromotionDescription;
+    private String valueAddedPromotionDescription;
 
     @JsonProperty("description")
     private String description;
@@ -519,12 +519,12 @@ public class LcboProduct
         isKosher = kosher;
     }
 
-    public boolean isValueAddedPromotionDescription()
+    public String isValueAddedPromotionDescription()
     {
         return valueAddedPromotionDescription;
     }
 
-    public void setValueAddedPromotionDescription(boolean valueAddedPromotionDescription)
+    public void setValueAddedPromotionDescription(String valueAddedPromotionDescription)
     {
         this.valueAddedPromotionDescription = valueAddedPromotionDescription;
     }

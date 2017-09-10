@@ -2,9 +2,10 @@ package com.tastingnotes.service;
 
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.tastingnotes.service.client.NaturalLanguageProcessingClient;
+import com.tastingnotes.service.client.GoogleNlpClient;
 import com.tastingnotes.service.client.LcboProductsClient;
 import com.tastingnotes.service.data.NoteRepository;
+import com.tastingnotes.service.data.ProductRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,12 +15,14 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericToStringSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 
 @SpringBootApplication
+@EnableScheduling
 public class TastingNotesServiceApplication
 {
     public static void main(String[] args)
@@ -55,6 +58,17 @@ public class TastingNotesServiceApplication
         return new NoteRepository(template);
     }
 
+    @Bean
+    public ProductRepository productRepository()
+    {
+        RedisTemplate<String, String> template = new RedisTemplate<>();
+        template.setConnectionFactory(jedisConnectionFactory());
+        template.setKeySerializer(new StringRedisSerializer());
+        template.setValueSerializer(new StringRedisSerializer());
+        template.afterPropertiesSet();
+        return new ProductRepository(template);
+    }
+
 
     @Bean
     LcboProductsClient lcboProductsClient() throws URISyntaxException, IOException
@@ -64,9 +78,9 @@ public class TastingNotesServiceApplication
     }
 
     @Bean
-    NaturalLanguageProcessingClient languageClient()
+    GoogleNlpClient nlpClient()
     {
-        return new NaturalLanguageProcessingClient();
+        return new GoogleNlpClient();
     }
 
     @Bean
