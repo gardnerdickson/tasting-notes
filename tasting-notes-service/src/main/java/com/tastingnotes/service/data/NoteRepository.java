@@ -20,12 +20,12 @@ public class NoteRepository
 
     public void saveNote(Note note)
     {
-        setOperations.add(key(note.getWord()), note.getProductIds().toArray(new Long[]{}));
+        setOperations.add(key(note.getWord().toLowerCase()), note.getProductIds().toArray(new Long[]{}));
     }
 
     public Set<Long> findNote(String word)
     {
-        return setOperations.members(key(word));
+        return setOperations.members(key(word.toLowerCase()));
     }
 
     private static String key(String word)

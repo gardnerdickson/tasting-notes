@@ -70,7 +70,7 @@ class CacheTasks
     {
         for (String word : words)
         {
-            noteRepository.saveNote(new Note(word.toLowerCase(), Collections.singleton(productId)));
+            noteRepository.saveNote(new Note(word, Collections.singleton(productId)));
         }
     }
 }
