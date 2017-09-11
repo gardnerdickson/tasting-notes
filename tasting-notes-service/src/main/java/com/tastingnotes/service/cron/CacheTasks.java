@@ -22,6 +22,8 @@ class CacheTasks
 {
     private static final Logger logger = LoggerFactory.getLogger(CacheTasks.class);
 
+    private static final int DELAY = 12 * 60 * 60 * 1000;
+
     @Autowired
     private LcboProductsClient lcboProductsClient;
 
@@ -38,7 +40,7 @@ class CacheTasks
             Arrays.asList(Entity.Type.LOCATION, Entity.Type.ORGANIZATION, Entity.Type.PERSON)
     );
 
-    @Scheduled(initialDelay = 5 * 1000, fixedDelay = 60 * 60 * 1000)
+    @Scheduled(initialDelay = DELAY, fixedDelay = DELAY) // 12 hours
     public void refreshLcboProductCache() throws IOException
     {
         logger.info("Refreshing Redis caches.");
