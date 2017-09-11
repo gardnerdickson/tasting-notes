@@ -19,7 +19,7 @@ public class ProductRestController
 {
     private final Logger logger = LoggerFactory.getLogger(ProductRestController.class);
 
-    private static final int PRODUCT_LIMIT = 50;
+    private static final int PRODUCT_LIMIT = 30;
 
     @Autowired
     private LcboProductsClient lcboProductsClient;

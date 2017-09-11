@@ -80,36 +80,30 @@ app.controller('loginController', function($log, $rootScope, $scope, $location, 
     $http.post('/login', body).then(
       function success(response) {
         sessionService.setCurrentUser($scope.login.username);
-        $location.path('/userFavorites')
+        $location.path('/')
       },
       function error(response) {
         $log.info("Failure: ", response)
       }
     );
-
-
-  }
+  };
 
 });
 
 
 app.controller('favoritesController', function($log, $scope, $http, $location, sessionService) {
 
-  $scope.favorites = {};
-
   function loadFavorites() {
 
     $http.get("/favorites").then(
       function success(response) {
         $log.log("Success: ", response);
-        // $rootScope.$broadcast('PRODUCTS_RECEIVED', response.data)
         $scope.products = response.data;
       },
       function error(response) {
         $log.log("Error: ", response);
       }
     )
-
   }
 
   $scope.openSearch = function() {

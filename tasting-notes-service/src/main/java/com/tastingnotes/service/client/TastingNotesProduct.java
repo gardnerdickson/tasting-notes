@@ -1,7 +1,6 @@
 package com.tastingnotes.service.client;
 
 
-//TODO: explain why 2 POJOs for Product.
 public class TastingNotesProduct
 {
     private long id;

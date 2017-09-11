@@ -1,6 +1,5 @@
 package com.tastingnotes.user.repo;
 
-// TODO: need this users for POST requests. Password is not hashed at this point.
 public class ApiUser
 {
     private Long id;

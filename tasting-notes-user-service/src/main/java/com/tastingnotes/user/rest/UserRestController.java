@@ -54,7 +54,7 @@ public class UserRestController
         List<Favorites> favoritesList = favoritesRepository.findByUserId(userId);
         if (favoritesList.isEmpty())
         {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
         return new ResponseEntity<>(favoritesList.get(0).getProductIds(), HttpStatus.OK);
@@ -65,11 +65,6 @@ public class UserRestController
     {
         logger.info("Adding product ID {} to favorites for user with ID {}", productId.getId(), userId);
         List<Favorites> favoritesList = favoritesRepository.findByUserId(userId);
-        if (favoritesList.isEmpty())
-        {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
         Favorites userFavorites = favoritesList.get(0);
         userFavorites.getProductIds().add(productId.getId());
         favoritesRepository.save(userFavorites);

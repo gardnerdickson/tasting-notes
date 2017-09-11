@@ -72,7 +72,7 @@ public class UserClient
 
         String url = builder.build().encode().toString();
         ResponseEntity<List<Long>> response = client.exchange(url, HttpMethod.GET, null, typeRef);
-        if (response.getStatusCode() != HttpStatus.OK)
+        if (response.getStatusCode() != HttpStatus.OK && response.getStatusCode() != HttpStatus.NO_CONTENT)
         {
             throw new ClientException(response.getStatusCode(), "Failed to retrieve user.");
         }

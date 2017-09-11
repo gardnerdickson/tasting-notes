@@ -1,6 +1,6 @@
 package com.tastingnotes.ui.client;
 
-// TODO: don't want to include password here.
+
 public class ApiUser
 {
     private Long id;

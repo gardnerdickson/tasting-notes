@@ -28,6 +28,12 @@ public class TastingNotesUserApplication
         return (args) -> {
             userRepo.save(new User("cloud", PasswordHasher.hash("midgar".toCharArray())));
             userRepo.save(new User("yukon", PasswordHasher.hash("river".toCharArray())));
+
+            Long cloudId = userRepo.findByUsername("cloud").get(0).getId();
+            Long yukonId = userRepo.findByUsername("yukon").get(0).getId();
+
+            favRepo.save(new Favorites(cloudId, new HashSet<>(Arrays.asList(544791L, 491290L))));
+            favRepo.save(new Favorites(yukonId, new HashSet<>(Arrays.asList(140509L))));
         };
     }
 

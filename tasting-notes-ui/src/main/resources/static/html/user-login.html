@@ -16,30 +16,35 @@
                         <input type="button" ng-click="loginSubmit()" value="Login"/>
                     </td>
                 </tr>
-            </table>
-        </form>
-
-        <form class="login-form login-form-right" style="right: 0px;">
-            <table>
-                <tr>
-                    <td><label for="create-username">Username:</label></td>
-                    <td><input id="create-username" type="text" ng-model="create.username"/></td>
-                </tr>
-                <tr>
-                    <td><label for="create-password">Password:</label></td>
-                    <td><input id="create-password" type="password" ng-model="create.password"/></td>
-                </tr>
-                <tr>
-                    <td><label for="confirm-password">Confirm password:</label></td>
-                    <td><input id="confirm-password" type="password" ng-model="create.passwordConfirm"/></td>
-                </tr>
                 <tr>
                     <td colspan="2">
-                        <input type="button" ng-click="craeteUserSubmit()" value="Create Account"/>
+                        {{loginMessage}}
                     </td>
                 </tr>
             </table>
         </form>
+
+        <!--<form class="login-form login-form-right" style="right: 0px;">-->
+            <!--<table>-->
+                <!--<tr>-->
+                    <!--<td><label for="create-username">Username:</label></td>-->
+                    <!--<td><input id="create-username" type="text" ng-model="create.username"/></td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td><label for="create-password">Password:</label></td>-->
+                    <!--<td><input id="create-password" type="password" ng-model="create.password"/></td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td><label for="confirm-password">Confirm password:</label></td>-->
+                    <!--<td><input id="confirm-password" type="password" ng-model="create.passwordConfirm"/></td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td colspan="2">-->
+                        <!--<input type="button" ng-click="createUserSubmit()" value="Create Account"/>-->
+                    <!--</td>-->
+                <!--</tr>-->
+            <!--</table>-->
+        <!--</form>-->
     </div>
 
 </div>

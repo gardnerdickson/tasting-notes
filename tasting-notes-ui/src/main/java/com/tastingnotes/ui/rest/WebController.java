@@ -8,6 +8,7 @@ import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
@@ -81,7 +82,6 @@ public class WebController
     @RequestMapping(method = RequestMethod.POST, value = "/favorites")
     public ResponseEntity<Void> addFavorite(@RequestBody ProductId productId, HttpServletRequest request)
     {
-
         String username = (String)request.getSession().getAttribute(SESSION_USER);
         if (username == null)
         {
@@ -131,6 +131,10 @@ public class WebController
         {
             User user = userClient.getUser(username);
             List<Long> productIds = userClient.getUserFavorites(user.getId());
+            if (productIds.isEmpty())
+            {
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
             Collection<Product> products = productClient.getProductsByIds(productIds);
             return new ResponseEntity<>(products, HttpStatus.OK);
         }
