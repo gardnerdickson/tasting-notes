@@ -1,0 +1,36 @@
+<ul>
+    <li id="product-list" ng-repeat="product in products">
+        <div style="border-bottom: 1px solid #cccccc">
+            <table>
+                <tr>
+                    <td rowspan="4">
+                        <img style="width: 150px; height: 200px" ng-src="{{product.imageUrl}}"/>
+                    </td>
+                    <td class="product-label">Name:</td>
+                    <td>{{product.name}}</td>
+                    <td class="product-label">Price:</td>
+                    <td>${{product.priceInCents / 100}}</td>
+                </tr>
+                <tr>
+                    <td class="product-label">Producer:</td>
+                    <td>{{product.producerName}}</td>
+                    <td class="product-label">Categories:</td>
+                    <td>{{product.primaryCategory}}, {{product.secondaryCategory}}</td>
+                </tr>
+                <tr>
+                    <td class="product-label">Origin:</td>
+                    <td>{{product.origin}}</td>
+                    <td class="product-label">Other Category</td>
+                    <td>{{product.tertiaryCategory}}</td>
+                </tr>
+                <tr>
+                    <td class="product-label">Tasting Note:</td>
+                    <td>{{product.tastingNote}}</td>
+                    <td class="product-label">Style:</td>
+                    <td>{{product.style}}</td>
+                </tr>
+            </table>
+            <a ng-show="showFavoritesButton" ng-click="addToFavorites(product.id)">Add this product to my favorites.</a>
+        </div>
+    </li>
+</ul>

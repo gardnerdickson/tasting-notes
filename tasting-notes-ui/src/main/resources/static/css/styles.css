@@ -10,6 +10,7 @@ html, body, div {
 }
 
 #search-form {
+    margin-top: 40px;
     text-align: center;
 }
 
@@ -29,8 +30,42 @@ ul {
 
 .product-label {
     font-weight: bold;
+    margin-left: 10px;
 }
 
 #product-list {
     margin-top: 20px;
+}
+
+a:hover {
+    cursor: pointer;
+}
+
+div.login-form-container {
+    margin-top:25px;
+    width: 625px;
+}
+
+.login-form-container tr {
+    height: 30px;
+}
+
+.login-form-container td {
+    text-align: right;
+}
+
+.login-form-container input {
+    float: right;
+}
+
+.login-form-container form {
+    display: inline-block
+}
+
+form.login-form-left {
+    float: left;
+}
+
+form.login-form-right {
+    float: right
 }

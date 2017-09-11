@@ -9,48 +9,19 @@
     <link rel="stylesheet" href="css/styles.css"/>
 
     <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular-route/angular-route.js"></script>
     <script src="lib/underscore/underscore.js"></script>
     <script src="lib/ng-tags-input/ng-tags-input.js"></script>
     <script src="js/app.js"></script>
     <script src="js/controllers.js"></script>
+    <script src="js/directives.js"></script>
     <script src="js/services.js"></script>
 
 </head>
 <body ng-app="tastingNotes">
 
-<div id="top">
-    <div id="main" class="column">
-        <div ng-controller="search">
-            <form id="search-form">
-                <tags-input id="tag-input" ng-model="tags" placeholder="Add a keyword" replace-spaces-with-dashes="false"></tags-input>
-                <input id="search-button" type="button" ng-click="submit()" value="Find LCBO Products"/>
-            </form>
-
-            <ul>
-                <li id="product-list" ng-repeat="product in products">
-                    <table>
-                        <tr>
-                            <td class="product-label">Name:</td>
-                            <td>{{product.name}}</td>
-                        </tr>
-                        <tr>
-                            <td class="product-label">Producer:</td>
-                            <td>{{product.producerName}}</td>
-                        </tr>
-                        <tr>
-                            <td class="product-label">Origin:</td>
-                            <td>{{product.origin}}</td>
-                        </tr>
-                        <tr>
-                            <td class="product-label">Tasting Note:</td>
-                            <td>{{product.tastingNote}}</td>
-                        </tr>
-                    </table>
-                </li>
-            </ul>
-
-        </div>
-    </div>
+<div id="main" class="column">
+    <ng-view></ng-view>
 </div>
 
 </body>

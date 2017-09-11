@@ -2,18 +2,13 @@ package com.tastingnotes.ui;
 
 
 import com.tastingnotes.ui.client.ProductClient;
+import com.tastingnotes.ui.client.UserClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
 
 @SpringBootApplication
 public class TastingNotesUIApplication
@@ -23,17 +18,31 @@ public class TastingNotesUIApplication
         SpringApplication.run(TastingNotesUIApplication.class);
     }
 
-    @Value("${service.host}")
-    private String serviceHost;
+    @Value("${product.host}")
+    private String productHost;
 
-    @Value("${service.context.product}")
-    private String productContext;
+    @Value("${user.host}")
+    private String userHost;
 
     @Bean
     ProductClient productClient() throws URISyntaxException
     {
-        return new ProductClient(serviceHost + productContext);
+        return new ProductClient(productHost);
     }
+
+    @Bean
+    UserClient userClient() throws URISyntaxException
+    {
+        return new UserClient(userHost);
+    }
+
+//    @Bean
+//    WebUserDetailsService userDetailsService()
+//    {
+//        return new WebUserDetailsService();
+//    }
+
+
 
 }
 
