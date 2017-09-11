@@ -22,4 +22,13 @@ public class TastingNotesUserApplication
         SpringApplication.run(TastingNotesUserApplication.class);
     }
 
+    @Bean
+    public CommandLineRunner demo(UserRepository userRepo, FavoritesRepository favRepo)
+    {
+        return (args) -> {
+            userRepo.save(new User("cloud", PasswordHasher.hash("midgar".toCharArray())));
+            userRepo.save(new User("yukon", PasswordHasher.hash("river".toCharArray())));
+        };
+    }
+
 }
